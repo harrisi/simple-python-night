@@ -1,21 +1,19 @@
-import operator
-
-program = '''PUSH 1
-PUSH 2
-ADD
-PUSH 5
-ADD
-PUSH 2
-SUB
-PUSH -1
-MUL
-PUSH x
-PUSH 5
-SET_VAR
-PUSH 2
-GET_VAR x
-ADD
-ADD'''
+# program = '''PUSH 1
+# PUSH 2
+# ADD
+# PUSH 5
+# ADD
+# PUSH 2
+# SUB
+# PUSH -1
+# MUL
+# PUSH x
+# PUSH 5
+# SET_VAR
+# PUSH 2
+# GET_VAR x
+# ADD
+# ADD'''
 
 # ugly silly global stack because why bother
 stack = []
@@ -100,11 +98,11 @@ instructions = {'PUSH': PUSH,
                 'NOP': NOP}
 
 def read_instr(prog):
-    prog_list = prog.split('\n') # split program into instructions (seperated by
-                                 # line)
     global stack
     op_left = 0
-    for inst in prog_list:
+    for inst in prog:
+        if inst is '': # hacky way of dealing with empty lines
+            continue
         cur_inst = inst.split()
         cur_operator = cur_inst[0]
         if cur_operator in ops:
@@ -115,10 +113,20 @@ def read_instr(prog):
         else:
             print('Unknown operator! Operator: ' + str(cur_operator))
 
+# Let's see if I can write a weird REPL!
+def REPL():
+    pass
+
 if __name__ == '__main__':
     # read instructions, but for now I would rather just execute a static
     # program, for quick progression.
-    print(program)
-    read_instr(program)
-    print(stack)
-    print(frames)
+    with open('prog.ivm', 'r') as f:
+        program = f.read().splitlines()
+        print('PROGRAM:')
+        for line in program:
+            print('\t' + str(line))
+        read_instr(program)
+        print('STACK:')
+        print('\t' + str(stack))
+        print('FRAMES:')
+        print('\t' + str(frames))

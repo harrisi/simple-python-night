@@ -8,10 +8,21 @@ ADD
 PUSH 2
 SUB
 PUSH -1
-MUL'''
+MUL
+PUSH x
+PUSH 5
+SET_VAR
+PUSH 2
+GET_VAR x
+ADD
+ADD'''
 
 # ugly silly global stack because why bother
 stack = []
+
+# This is dumb. I can't think of a really nice way to deal with scope, and it's
+# almost eight!
+frames = []
 
 # Although I don't see why these would also need to have operands, I'm
 # future-proofing at the cost of an unused parameter.
@@ -49,6 +60,22 @@ def XOR(operands):
 def NOP(operands): # of course it's silly for NOP to take operands.
     pass
 
+def SET_VAR(operands):
+    global stack
+    global frames
+    var_val = stack.pop()
+    var_name = stack.pop()
+    # dealing with types?
+    frames.append({var_name: var_val})
+
+def GET_VAR(operands):
+    global stack
+    global frames
+    var_name = operands[0]
+    for frame in frames:
+        if var_name in frame:
+            PUSH(frame[var_name])
+
 ops = {'ADD': ADD,
        'SUB': SUB,
        'MUL': MUL,
@@ -67,7 +94,10 @@ def POP(operands):
     return stack.pop()
 
 instructions = {'PUSH': PUSH,
-                'POP':  POP}
+                'POP':  POP,
+                'SET_VAR': SET_VAR,
+                'GET_VAR': GET_VAR,
+                'NOP': NOP}
 
 def read_instr(prog):
     prog_list = prog.split('\n') # split program into instructions (seperated by
@@ -91,3 +121,4 @@ if __name__ == '__main__':
     print(program)
     read_instr(program)
     print(stack)
+    print(frames)

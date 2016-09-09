@@ -46,6 +46,9 @@ def XOR(operands):
     stack.append(res)
     return res
 
+def NOP(operands): # of course it's silly for NOP to take operands.
+    pass
+
 ops = {'ADD': ADD,
        'SUB': SUB,
        'MUL': MUL,
@@ -77,10 +80,10 @@ def read_instr(prog):
         if cur_operator in ops:
             ops[cur_operator](cur_inst[1:])
             #stack.append(ops[cur_inst[0]](stack.pop(), stack.pop()))
-        elif cur_inst[0] in instructions:
+        elif cur_operator in instructions:
             instructions[cur_operator](cur_inst[1:])
         else:
-            print('unknown instruction!')
+            print('Unknown operator! Operator: ' + str(cur_operator))
 
 if __name__ == '__main__':
     # read instructions, but for now I would rather just execute a static

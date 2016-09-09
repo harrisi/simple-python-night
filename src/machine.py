@@ -13,11 +13,6 @@ MUL'''
 # ugly silly global stack because why bother
 stack = []
 
-# I think this will be over engineered for two hours of time to spend.
-class vm(object):
-    def __init__(self, prog): # optional delimiter?
-        self.prog = prog
-
 ops = {'ADD': operator.add,
        'SUB': operator.sub,
        'MUL': operator.mul,

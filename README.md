@@ -56,10 +56,10 @@ GET_VAR: Push the value associated with the operand onto the stack.
 NOP: No operation.
 ```
 
-Currently none of the instructions have any extra operands except `GET_VAR`,
-although I plan on giving mathematical operators such as `ADD`, `MUL`, etc. the
-ability to take an operand (possibly more than one). The operand would be a
-number of elements to apply the operator to. Potential (future) example:
+Currently none of the instructions have any extra operands except `GET_VAR` and
+`PUSH`, although I plan on giving mathematical operators such as `ADD`, `MUL`,
+etc. the ability to take an operand (possibly more than one). The operand would
+be a number of elements to apply the operator to. Potential (future) example:
 
 ```
 PUSH 1
